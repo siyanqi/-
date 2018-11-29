@@ -198,3 +198,11 @@ function x_admin_close(){
 }
 
 
+function x_admin_api(){
+/*
+    return 'http://tptest5.com/public/index.php/admin/';
+*/
+alert(1);
+}
+
+
