@@ -1,47 +1,80 @@
 {include file="Basics/header" /}
   
   <body>
-    <div class="x-body">
-        <form class="layui-form">
-          <div class="layui-form-item">
-              <label  class="layui-form-label">
-                  分类名称
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="cate_name" name="cate_name" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>
-              </div>
+  <div class="x-body" id="x-body">
+  <form class="layui-form" action="">
+      <div class="layui-form-item">
+          <label class="layui-form-label">分类名称</label>
+          <div class="layui-input-block">
+              <input type="text" name="category_name" style="width: 50%" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
           </div>
-            <div class="layui-form-item">
-                <label  class="layui-form-label">
-                    排序
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="cate_rake" name="cate_rake" lay-verify="cate_rake" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label  class="layui-form-label">
-                    是否显示
-                </label>
-                <div class="layui-input-inline">
-                    <input type="checkbox" id="checkboxID" lay-skin="switch"  name="is_show" value="1" lay-text="开启|关闭">
-                </div>
-            </div>
-          <div class="layui-form-item">
-              <label  class="layui-form-label">
-              </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
-              </button>
+      </div>
+      <div class="layui-form-item">
+          <label class="layui-form-label">排序</label>
+          <div class="layui-input-block">
+              <input type="text" name="rake" style="width: 50%" required  lay-verify="rake|required" placeholder="请输入排序" autocomplete="off" class="layui-input">
           </div>
-      </form>
-    </div>
+      </div>
+      <div class="layui-form-item">
+          <label class="layui-form-label">是否显示</label>
+          <div class="layui-input-block">
+              <input type="radio" name="is_show" value="1" title="显示" checked>
+              <input type="radio" name="is_show" value="2" title="隐藏">
+          </div>
+      </div>
+      <div class="layui-form-item">
+          <div class="layui-input-block">
+              <button class="layui-btn" lay-submit lay-filter="formData">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+      </div>
+  </form>
+  </div>
+
+  <script>
+
+      layui.use(['form','common'], function(){
+          var form = layui.form
+              , common = layui.common;
+          form.verify({
+              rake: [
+                  /^[0-9]*$/
+                  ,'只能是数字'
+              ]
+          });
+
+          //监听提交
+          form.on('submit(formData)', function(data){
+              var add_url = "{url('add')}";
+              $.post(add_url,data.field,function (res) {
+                  if(res.code == 0) {
+                      layer.open({
+                          title: res.message
+                          ,content: res.message
+                          ,yes: function(index, layero){
+                              x_admin_close();
+                              window.location.href = "{$_SERVER['SCRIPT_NAME']}/admin/Category/index";
+                          }
+                      });
+                  } else {
+                      layer.open({
+                          title: res.message
+                          ,content: res.message
+                          ,yes: function(index, layero){
+                              x_admin_close();
+                              window.location.href = "{$_SERVER['SCRIPT_NAME']}/admin/Category/index";
+                          }
+
+                      });
+                  }
+              },'json')
+
+
+              layer.msg(JSON.stringify(data.field));
+              return false;
+          });
+      });
+  </script>
   </body>
 
 </html>

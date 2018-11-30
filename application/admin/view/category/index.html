@@ -16,7 +16,7 @@
 
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn"   onclick="x_admin_show('增加','cate-add.html',500,400)"><i class="layui-icon"></i>增加</button>
+        <button class="layui-btn"   onclick='x_admin_show("增加","{$_SERVER.SCRIPT_NAME}/admin/Category/add",500,400)'><i class="layui-icon"></i>增加</button>
 
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
@@ -33,25 +33,29 @@
             <th width="220">操作</th>
         </thead>
         <tbody>
-          <tr v-for="item in cate_list">
+        {foreach $data as $key=>$vo }
+        <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td> {{item.id}}</td>
+            <td> {$vo.id}</td>
             <td>
-             {{item.category_name}}
+             {$vo.category_name}
             </td>
-            <td><input type="text" class="layui-input x-sort" name="" :value="item.rake"></td>
+            <td><input type="text" class="layui-input x-sort" name="" value="{$vo.rake}"></td>
             <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini"  v-if="item.is_show == 1">显示</span>
-              <span class="layui-btn layui-btn-normal layui-btn-mini" v-else>隐藏</span>
+                {eq name="$vo.is_show" value="1"}
+                   <span class="layui-btn layui-btn-normal layui-btn-mini">显示</span>
+                {else/}
+                   <span class="layui-btn layui-btn-normal layui-btn-mini">隐藏</span>
+                {/eq}
             </td>
-            <input type="hidden" id="cate_id" :value="item.id" />
             <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs" :value="item.id"  onclick="x_admin(this)" ><i class="layui-icon">&#xe642;</i>编辑</button>
+              <button class="layui-btn layui-btn layui-btn-xs" :value="item.id"  onclick='x_admin_show("编辑","{$_SERVER.SCRIPT_NAME}/admin/Category/edit/id/{$vo.id}",500,400)' ><i class="layui-icon">&#xe642;</i>编辑</button>
               <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
             </td>
           </tr>
+        {/foreach}
         </tbody>
       </table>
     </div>
@@ -59,11 +63,6 @@
       
     </style>
     <script>
-
-      function x_admin(obj) {
-          var url = 'cate-edit.html?id='+$(obj).val();
-          x_admin_show('编辑',url,500,400)
-      }
 
        var vm = new Vue({
 

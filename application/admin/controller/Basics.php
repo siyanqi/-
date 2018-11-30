@@ -6,10 +6,10 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Request;
 
 class Basics extends Controller
 {
-
     public function header()
     {
         return  $this->display();
