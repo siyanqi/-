@@ -1,0 +1,80 @@
+{include file="Admin/header" /}
+
+<body>
+<div class="x-body" id="x-body">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类名称</label>
+            <div class="layui-input-block">
+                <input type="text" id="category_name" name="category_name" required="" lay-verify="required" autocomplete="off" value="{$data.category_name}" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block">
+                <input type="text" id="rake" name="rake" required="" lay-verify="required" autocomplete="off" value="{$data.rake}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否显示</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_show" class="checkboxID" value="1" title="显示" {eq name="$data.is_show" value="1"}checked {/eq}>
+                <input type="radio" name="is_show" class="checkboxID" value="2" title="隐藏" {eq name="$data.is_show" value="2"}checked {/eq}>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="hidden" name="id" value="{$data.id}" />
+                <button class="layui-btn" lay-submit lay-filter="formData">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    layui.use(['form'], function(){
+        var form = layui.form;
+        form.verify({
+            rake: [
+                /^[0-9]*$/
+                ,'只能是数字'
+            ]
+        });
+
+        //监听提交
+        form.on('submit(formData)', function(data){
+            var edit_url = "{url('edit')}";
+            $.post(edit_url,data.field,function (res) {
+                if(res.code == 0) {
+                    layer.open({
+                        title: res.message
+                        ,content: res.message
+                        ,yes: function(index, layero){
+                            x_admin_close();
+                            window.parent.location.reload();
+                        }
+                    });
+                } else {
+                    layer.open({
+                        title: res.message
+                        ,content: res.message
+                        ,yes: function(index, layero){
+                            x_admin_close();
+                            window.parent.location.reload();
+                        }
+
+                    });
+                }
+            },'json');
+
+
+            return false;
+        });
+    });
+</script>
+</body>
+
+</html>

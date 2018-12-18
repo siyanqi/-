@@ -1,4 +1,4 @@
-{include file="Basics/header" /}
+{include file="Admin/header" /}
   
   <body>
   <div class="x-body" id="x-body">
@@ -33,9 +33,8 @@
 
   <script>
 
-      layui.use(['form','common'], function(){
-          var form = layui.form
-              , common = layui.common;
+      layui.use(['form'], function(){
+          var form = layui.form;
           form.verify({
               rake: [
                   /^[0-9]*$/
@@ -53,7 +52,7 @@
                           ,content: res.message
                           ,yes: function(index, layero){
                               x_admin_close();
-                              window.location.href = "{$_SERVER['SCRIPT_NAME']}/admin/Category/index";
+                              window.parent.location.reload();
                           }
                       });
                   } else {
@@ -62,15 +61,14 @@
                           ,content: res.message
                           ,yes: function(index, layero){
                               x_admin_close();
-                              window.location.href = "{$_SERVER['SCRIPT_NAME']}/admin/Category/index";
+                              window.parent.location.reload();
                           }
 
                       });
                   }
-              },'json')
+              },'json');
 
 
-              layer.msg(JSON.stringify(data.field));
               return false;
           });
       });

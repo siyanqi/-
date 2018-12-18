@@ -54,7 +54,7 @@ return [
     // +----------------------------------------------------------------------
 
     // 默认模块名
-    'default_module'         => 'index',
+    'default_module'         => 'admin',
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名
@@ -240,6 +240,10 @@ return [
         'list_rows' => 15,
     ],
     'public'=>[
-        'static'=>'http://localhost/thinkphp_5.0.20/public/static'
+        'img'=>'/public/uploads/img',
+        'upload_img'=>'../public/uploads/img',
+        'video'=>'/public/uploads/video',
+        'upload_video'=>'../public/uploads/video',
+        'del_upload' => 'uploads/'
     ],
 ];

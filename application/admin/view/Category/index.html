@@ -1,4 +1,4 @@
-{include file="Basics/header" /}
+{include file="Admin/header" /}
 
 
 <body>
@@ -17,8 +17,7 @@
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn"   onclick='x_admin_show("增加","{$_SERVER.SCRIPT_NAME}/admin/Category/add",500,400)'><i class="layui-icon"></i>增加</button>
-
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+          <span class="x-right" style="line-height:40px">共有数据：{$count} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -36,13 +35,13 @@
         {foreach $data as $key=>$vo }
         <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$vo.id}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td> {$vo.id}</td>
             <td>
              {$vo.category_name}
             </td>
-            <td><input type="text" class="layui-input x-sort" name="" value="{$vo.rake}"></td>
+            <td><input  class="layui-input x-sort" disabled name="" value="{$vo.rake}"></td>
             <td class="td-status">
                 {eq name="$vo.is_show" value="1"}
                    <span class="layui-btn layui-btn-normal layui-btn-mini">显示</span>
@@ -51,72 +50,55 @@
                 {/eq}
             </td>
             <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs" :value="item.id"  onclick='x_admin_show("编辑","{$_SERVER.SCRIPT_NAME}/admin/Category/edit/id/{$vo.id}",500,400)' ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
+              <button class="layui-btn layui-btn layui-btn-xs"   onclick='x_admin_show("编辑","{$_SERVER.SCRIPT_NAME}/admin/Category/edit/id/{$vo.id}",500,400)' ><i class="layui-icon">&#xe642;</i>编辑</button>
+              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick='member_del(this,"{$vo.id}")' href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
             </td>
           </tr>
         {/foreach}
         </tbody>
       </table>
+        {$page}
     </div>
     <style type="text/css">
-      
+
     </style>
     <script>
-
-       var vm = new Vue({
-
-           el:"#x-body",
-            data: {
-                cate_list:[],
-                cate_info:[]
-            },
-            created: function () {
-                // `this` 指向 vm 实例
-                this.getList();
-            },
-              methods:{
-                   getList:function() {
-
-                       var url = 'http://tptest5.com/public/index.php/admin/Category/lst?page=1';
-                       this.$http.get(url).then(function(res){
-                           this.cate_list = res.body.data;
-                       },function(){
-                           console.log('请求失败处理');
-                       });
-                   }
-                }
-        })
+        var del_url = "{:url('Category/del')}";
 
 
-
-
-      layui.use(['form'], function(){
-        form = layui.form;
-        
-      });
-
-      
-
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
+      function member_del(obj,id) {
+          layer.confirm('确认要删除吗', function (index) {
               $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              layer.close(index);
+              //向服务端发送删除指令
+              $.post(del_url, {id: id}, function (res) {
+                  console.log(res);
+                  if (res.code == 0) {
+                      layer.msg(res.message, {icon: 1, time: 1000});
+                  } else {
+                      layer.msg(res.message, {icon: 1, time: 1000});
+                  }
+              }, 'json');
           });
+
       }
 
-
-
-      function delAll (argument) {
-
+      function delAll () {
         var data = tableCheck.getData();
-  
+        console.log(data);
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
+            //向服务端发送删除指令
+            $.post(del_url, {id: data}, function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    layer.msg(res.message, {icon: 1, time: 1000});
+                } else {
+                    layer.msg(res.message, {icon: 1, time: 1000});
+                }
+            }, 'json');
+
         });
       }
     </script>
