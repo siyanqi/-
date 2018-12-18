@@ -20,7 +20,7 @@ class Category extends Basics
                 $this->json(0,'添加成功');
             }
         }
-        return  $this->fetch();
+        return  $this->fetch('Category/add');
     }
 
     public function edit()
@@ -38,7 +38,7 @@ class Category extends Basics
         $data = Db::name('category')->where('id',$id)->find();
         $this->assign('data',$data);
 
-        return  $this->fetch();
+        return  $this->fetch('Category/edit');
     }
 
     public function del() {
@@ -70,6 +70,6 @@ class Category extends Basics
             $this->assign('data',$data);
             $this->assign('page',$page);
             $this->assign('count',$count);
-            return  $this->fetch();
+            return  $this->fetch('Category/index');
     }
 }

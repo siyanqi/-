@@ -12,12 +12,12 @@ class Index extends Basics
 {
     public function index()
     {
-        return  $this->fetch();
+        return  $this->fetch('Index/index');
     }
 
     public function welcome()
     {
-        return  $this->fetch();
+        return  $this->fetch('Index/welcome');
     }
 
 

@@ -57,7 +57,7 @@ class Video extends Basics
             'count'     => $count,
         ));
 
-        return  $this->fetch();
+        return  $this->fetch('Video/index');
     }
 
     public function add()
@@ -88,7 +88,7 @@ class Video extends Basics
         }
         $category = Db::name('category')->select();
         $this->assign('category',$category);
-        return  $this->fetch();
+        return  $this->fetch('Video/add');
     }
 
     public function edit() {
@@ -143,7 +143,7 @@ class Video extends Basics
         $this->assign('category',$category);
         $this->assign('data',$data);
         $this->assign('video_category',$video_category);
-        return $this->fetch();
+        return $this->fetch('Video/edit');
     }
 
     public function del(){

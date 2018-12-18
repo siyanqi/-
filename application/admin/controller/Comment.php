@@ -12,12 +12,12 @@ class Comment extends Basics
 {
     public function index()
     {
-        return  $this->fetch();
+        return  $this->fetch('Comment/index');
     }
 
     public function add()
     {
-        return  $this->fetch();
+        return  $this->fetch('Comment/add');
     }
 
 

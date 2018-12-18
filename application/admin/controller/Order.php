@@ -12,12 +12,12 @@ class Order extends Basics
 {
     public function index()
     {
-        return  $this->fetch();
+        return  $this->fetch('Order/index');
     }
 
     public function add()
     {
-        return  $this->fetch();
+        return  $this->fetch('Order/add');
     }
 
 

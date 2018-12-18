@@ -14,7 +14,7 @@ class Admin extends Controller
 {
     public function header()
     {
-        return  $this->fetch();
+        return  $this->fetch('Admin/header');
     }
 
     public function login_api() {
@@ -37,7 +37,7 @@ class Admin extends Controller
 
 
     public function login() {
-        return  $this->fetch();
+        return  $this->fetch('Admin/login');
     }
 
 

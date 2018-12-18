@@ -241,9 +241,9 @@ return [
     ],
     'public'=>[
         'img'=>'/public/uploads/img',
-        'upload_img'=>'../public/uploads/img',
+        'upload_img'=> ROOT_PATH.'public/uploads/img',
         'video'=>'/public/uploads/video',
-        'upload_video'=>'../public/uploads/video',
+        'upload_video'=> ROOT_PATH.'public/uploads/video',
         'del_upload' => 'uploads/'
     ],
 ];
